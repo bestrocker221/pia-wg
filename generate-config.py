@@ -3,22 +3,33 @@ from pick import pick
 from getpass import getpass
 from datetime import datetime
 
+import os
+from dotenv import load_dotenv
+
+# Load the .env file
+load_dotenv()
+
+# Access environment variables
+option = os.getenv("region")
+PIA_user = os.getenv("PIA_user")  # Returns a string ("True")
+PIA_pass = os.getenv("PIA_pass")
+
 pia = piawg()
 
 # Generate public and private key pair
 pia.generate_keys()
 
 # Select region
-title = 'Please choose a region: '
-options = sorted(list(pia.server_list.keys()))
-option, index = pick(options, title)
+#title = 'Please choose a region: '
+#options = sorted(list(pia.server_list.keys()))
+#option, index = pick(options, title)
 pia.set_region(option)
 print("Selected '{}'".format(option))
 
 # Get token
 while True:
-    username = input("\nEnter PIA username: ")
-    password = getpass()
+    username = PIA_user
+    password = PIA_pass
     if pia.get_token(username, password):
         print("Login successful!")
         break
